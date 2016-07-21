@@ -1,6 +1,6 @@
 (function(){
   CKEDITOR.plugins.add('btgrid', {
-      lang: 'en,ru,fr,nl',
+      lang: 'en,ru,fr,nl,zh',
       requires: 'widget,dialog',
       icons: 'btgrid',
       init: function(editor) {
@@ -53,6 +53,7 @@
              if (this.data.colCount && this.element.getChildCount() < 1) {
                var colCount = this.data.colCount;
                var rowCount = this.data.rowCount;
+               var colSize = this.data.colSize;
                var row = this.parts['btgrid'];
                for (var i= 1;i <= rowCount;i++) {
                  this.createGrid(colCount, row, i);
@@ -61,12 +62,12 @@
            },
            //Helper functions.
            // Create grid
-           createGrid: function(colCount, row, rowNumber) {
+           createGrid: function(colCount, row, rowNumber, colSize) {
              var content = '<div class="row row-' + rowNumber + '">';
              for (var i = 1; i <= colCount; i++) {
-               content = content + '<div class="col col-md-' + maxGridColumns/colCount + '">' +
+               content = content + '<div class="col col-'+ colSize + '-' + maxGridColumns/colCount + '">' +
                                    '  <div class="content">' +
-                                   '    <p>Col ' + i + ' content area</p>' +
+                                   '    <p>Col ' + rowNumber + '-' + i + '</p>' +
                                    '  </div>' +
                                    '</div>';
              }
