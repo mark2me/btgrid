@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'btgrid', function( editor ) {
   }
   return {
     title: lang.editBtGrid,
-    minWidth: 600,
+    minWidth: 300,
     minHeight: 300,
     onShow: function() {
       // Detect if there's a selected table.
@@ -26,7 +26,8 @@ CKEDITOR.dialog.add( 'btgrid', function( editor ) {
       var command = this.getName();
 
       var rowsInput = this.getContentElement('info', 'rowCount'),
-        colsInput = this.getContentElement('info', 'colCount');
+        colsInput = this.getContentElement('info', 'colCount'),
+        colSize = this.getContentElement('info', 'colSize');
       if (command == 'btgrid') {
         var grid = selection.getSelectedElement();
         // Enable or disable row and cols.
@@ -34,6 +35,7 @@ CKEDITOR.dialog.add( 'btgrid', function( editor ) {
           this.setupContent(grid);
           rowsInput && rowsInput.disable();
           colsInput && colsInput.disable();
+          colSize && colSize.disable();
         }
       }
     },
@@ -62,6 +64,30 @@ CKEDITOR.dialog.add( 'btgrid', function( editor ) {
             // When committing (saving) this field, set its value to the widget data.
             commit: function( widget ) {
               widget.setData( 'colCount', this.getValue());
+            }
+          },
+          {
+            id: 'colSize',
+            type: 'select',
+            required: true,
+            label: lang.selColsSzie,
+            items: [
+              [ 'xs', 'xs'],
+              [ 'sm', 'sm'],
+              [ 'md', 'md'],
+              [ 'lg', 'lg'],
+            ],
+            validate: function() {
+                if ( !this.getValue() ) {
+                    alert(lang.sizeError );
+                    return false;
+                }
+            },
+            setup: function( widget ) {
+              this.setValue(widget.data.colSize);              
+            },
+            commit: function( widget ) {
+              widget.setData( 'colSize', this.getValue());              
             }
           },
           {
